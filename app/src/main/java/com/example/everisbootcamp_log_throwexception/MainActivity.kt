@@ -19,13 +19,24 @@ class MainActivity : AppCompatActivity() {
         val btTest = btn_tryCatch
         val list = listOf(2,1,4)
 
+        val currentThread = Thread.currentThread()
+        currentThread.setUncaughtExceptionHandler{_,throwable ->
+            val x = throwable.message
+            val cause = throwable.cause
+        }
+
         btTest.setOnClickListener {
+            var msg:String=""
             try {
                 val a = list[6]
             } catch (e: IndexOutOfBoundsException){
                 val x =0
+                msg = "Catch IndexOutOfBounds"
+            } catch (i: NullPointerException) {
+                msg = "Catch NullPointer"
+            } finally {
+                resultado.setText(msg)
             }
-            resultado.setText(list[0].toString())
         }
         btErro.setOnClickListener {
             //throw Exception()
